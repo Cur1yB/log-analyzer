@@ -1,12 +1,13 @@
 import json
 from collections import defaultdict
 from typing import Union, Generator, List
+from datetime import datetime
 
 
 class Analyzer:
     def __init__(self):
         self.REPORT_MAPPER = {
-            'response_time': {
+            'average': {
                 'processor': self.get_response_time,
                 'crude': defaultdict(lambda: {'sum_response_time': 0, 'count': 0}), # it's format for crude data
                 'table': self.make_table_response_time,
@@ -24,12 +25,13 @@ class Analyzer:
             for line in file:
                 yield line
 
-    def analyze_rows(self, files:List[str], processor_name: str = 'response_time') -> List[List[Union[int, str, float]]]:
+    def analyze_rows(self, files:List[str], processor_name: str = 'average', date_for_analize: str = None) -> List[List[Union[int, str, float]]]:
         '''
         Universal function for analyze logs
 
         :param files: List[str] - list of files for analyze
         :param processor_name: str - name of analizer
+        :param date_for_analize: str - date for analyze <format YYYY-MM-DD> (Optional)
 
         :return: List[List[Union[int, str, float]]] - list of lists with data for table
         '''
@@ -44,16 +46,20 @@ class Analyzer:
                     break
                 line_dict = json.loads(line)
                 
-                processor(line_dict, base_crud_dict)
+                processor(line_dict, base_crud_dict, date_for_analize)
         table_view = self.REPORT_MAPPER[processor_name]['table'](base_crud_dict)
         return table_view
     
-    def get_response_time(self, line: dict[str, Union[str, int, float]], crude: dict[str, Union[str, int, float]]) -> None:
+    def get_response_time(self, line: dict[str, Union[str, int, float]], crude: dict[str, Union[str, int, float]], date_for_analize: datetime.date = None) -> None:
         '''
         Analyzer for response time
 
         :param line: dict[str, Union[str, int, float]] - dict with data from log
         '''
+        if date_for_analize:
+            response_date = str(datetime.strptime(line['@timestamp'], '%Y-%m-%dT%H:%M:%S%z').date())
+            if date_for_analize != response_date:
+                return
         url = line['url']
         time = float(line['response_time'])
 

@@ -1,10 +1,15 @@
 from tabulate import tabulate
 from typing import Union, List
 
+HEADERS_TABLE_MAPPER = {
+    'average': ['', 'handler', 'total', 'avg_response_time'],
+    # if need to add another headers for another analizes, add it here
+}
 
 class Output:
+    
     @staticmethod
-    def create_table(table: List[Union[int, str, float]], sort_by: int = 1, headers=None):
+    def create_table(table: List[Union[int, str, float]], sort_by: int = 1, report_name:str = 'average'):
         '''
         Create table view, it's universal
 
@@ -14,13 +19,12 @@ class Output:
 
         :return: str - it's a table
         '''
-        if not headers:
-            headers = ['', 'handler', 'total', 'avg_response_time']
         sorted_table = sorted(table, key=lambda x: x[sort_by], reverse=True)
-        # add number of row
-        for i, row in enumerate(sorted_table):
-            row.insert(0, i)
-        # Mmm... so much curry there
- 
-        tabulated_table = tabulate(sorted_table, headers=headers)
+        
+        tabulated_table = tabulate(sorted_table, headers=HEADERS_TABLE_MAPPER.get(report_name), showindex=True)
         return tabulated_table
+
+REPORT_FORMATTERS_MAPPER = {
+    'average': Output.create_table,
+    # You can add more report formaters here
+}

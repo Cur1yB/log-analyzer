@@ -7,3 +7,8 @@ requires-python = ">=3.12"
 dependencies = [
     "tabulate>=0.9.0",
 ]
+
+[dependency-groups]
+dev = [
+    "asciinema>=2.4.0",
+]
