@@ -1,15 +1,15 @@
-from analizer import log_analyzer
+from analizer import Analyzer
 from parser import parse_args
-from tabulator import create_table
-from tabulate import tabulate
+from formatter import Output
 
 def main():
     file, report_name, date = parse_args()
     files = file.split(' ')
-    id = 0
-    data = log_analyzer(files)
-    table = create_table(data)
-    print(table)
+    analizer = Analyzer()
+    data = analizer.analyze_rows(files)
+    # if need other formats (plain, html, csv etc.), there you can add mapper
+    output = Output.create_table(data)
+    print(output)
 
 
 
