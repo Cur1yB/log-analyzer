@@ -2,7 +2,6 @@ from log_analyzer.formatter import Output
 import pytest
 
 
-# Фикстуры для тестовых данных
 @pytest.fixture
 def sample_average_data():
     return [
@@ -32,8 +31,7 @@ class TestOutput:
         result = Output.create_table(sample_unsorted_data, sort_by=1)
         lines = result.split("\n")
 
-        # Проверяем порядок строк после сортировки
-        assert "1500" in lines[2]  # Первая строка после заголовков
+        assert "1500" in lines[2]
         assert "1200" in lines[3]
         assert "800" in lines[4]
 
