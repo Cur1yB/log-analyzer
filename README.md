@@ -27,7 +27,7 @@ make install
 Done!
 
 ## Usage
-
+```bash
 uv run analyze [-h] --file FILE [--report REPORT] [--date DATE]
 
 Log Analyzer for processing *.log files, where each line is JSON object.
@@ -37,7 +37,7 @@ options:
   --file FILE      Path to file | files separated by space
   --report REPORT  Report type
   --date DATE      Date in format YYYY-MM-DD
-
+```
 # Demo version
 
 You can run demo-verson **Asciinema powered** by command:
