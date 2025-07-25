@@ -46,6 +46,8 @@ You can run demo-verson **Asciinema powered** by command:
 make demo_version
 ```
 
+[![asciicast](https://asciinema.org/a/zETXAvbfrg9yjfmEYZlDP4Tr9.svg)](https://asciinema.org/a/zETXAvbfrg9yjfmEYZlDP4Tr9)
+
 ## Tests
 
 You can run tests by command:
